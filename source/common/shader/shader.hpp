@@ -142,6 +142,7 @@ namespace our {
         // because it will cause problems when we try to delete the shader program
         // since this will lead to  deleting the same OpenGL object name twice
         ShaderProgram(const ShaderProgram&) = delete;
+        ShaderProgram& operator=(const ShaderProgram&) = delete;
     };
 
 }
