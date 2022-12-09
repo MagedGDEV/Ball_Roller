@@ -10,6 +10,16 @@ namespace our {
     // HINT: to convert euler angles to a rotation matrix, you can use glm::yawPitchRoll
     glm::mat4 Transform::toMat4() const {
         //TODO: (Req 3) Write this function
+        //we follow the order of scaling, rotation and translation
+        
+        //scaling
+        glm::mat4 mat = glm::scale(glm::mat4(1.0f), scale);
+        
+        //roll,, pitch, yaw rotation (z, x, y)
+        mat = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+
+        //translation
+        mat = glm::translate(mat, position);
         return glm::mat4(1.0f); 
     }
 
