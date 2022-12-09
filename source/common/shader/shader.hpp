@@ -38,6 +38,12 @@ namespace our {
 
         GLuint getUniformLocation(const std::string &name) {
             //TODO: (Req 1) Return the location of the uniform with the given name
+            
+            // Specify the location of a specific uniform variable for the current program object (shader program)
+            // The location of a uniform is the index of the uniform in the array of uniforms in the shader program
+            // The index returned is used to specify the uniform when we want to set its value
+            // If uniform doesn't exist, glGetUniformLocation returns -1
+            return glGetUniformLocation(program, name.c_str());
         }
 
         void set(const std::string &uniform, GLfloat value) {
