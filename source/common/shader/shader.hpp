@@ -50,7 +50,7 @@ namespace our {
             //TODO: (Req 1) Send the given float value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (float)
@@ -62,7 +62,7 @@ namespace our {
             //TODO: (Req 1) Send the given unsigned integer value to the given uniform
             
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (unsigned integer)
@@ -74,7 +74,7 @@ namespace our {
             //TODO: (Req 1) Send the given integer value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (integer)
@@ -86,7 +86,7 @@ namespace our {
             //TODO: (Req 1) Send the given 2D vector value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (2D float vector)
@@ -98,7 +98,7 @@ namespace our {
             //TODO: (Req 1) Send the given 3D vector value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (3D float vector)
@@ -110,7 +110,7 @@ namespace our {
             //TODO: (Req 1) Send the given 4D vector value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (4D float vector)
@@ -122,7 +122,7 @@ namespace our {
             //TODO: (Req 1) Send the given matrix 4x4 value to the given uniform
 
             // Get the location of the uniform with the given name
-            Gluint location = glGetUniformLocation(uniform);
+            GLuint location = getUniformLocation(uniform);
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (matrix float 4x4)
