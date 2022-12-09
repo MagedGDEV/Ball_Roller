@@ -54,7 +54,7 @@ namespace our {
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (float)
-                glUniform1f(location, value);
+                glUniform1f(getUniformLocation(uniform), value);
             }
         }
 
@@ -63,10 +63,10 @@ namespace our {
             
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            // // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (unsigned integer)
-                glUniform1ui(location, value);
+                glUniform1ui(getUniformLocation(uniform), value);
             }
         }
 
@@ -75,10 +75,10 @@ namespace our {
 
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (integer)
-                glUniform1i(location, value);
+                glUniform1i(getUniformLocation(uniform), value);
             }
         }
 
@@ -87,10 +87,10 @@ namespace our {
 
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (2D float vector)
-                glUniform2f(location, value.x, value.y);
+                glUniform2f(getUniformLocation(uniform), value.x, value.y);
             }
         }
 
@@ -99,10 +99,10 @@ namespace our {
 
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (3D float vector)
-                glUniform3f(location, value.x, value.y, value.z);
+                glUniform3f(getUniformLocation(uniform), value.x, value.y, value.z);
             }
         }
 
@@ -111,10 +111,10 @@ namespace our {
 
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (4D float vector)
-                glUniform4f(location, value.x, value.y, value.z, value.w);
+                glUniform4f(getUniformLocation(uniform), value.x, value.y, value.z, value.w);
             }
         }
 
@@ -123,14 +123,14 @@ namespace our {
 
             // Get the location of the uniform with the given name
             GLuint location = getUniformLocation(uniform);
-            // check if the uniform exists
+            //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (matrix float 4x4)
                 // Second parameter is the number of matrices to be modified which is 1 because 
                 // we are sending only one matrix and the uniform is not an array of matrices
                 // Third parameter is GL_FALSE because we don't want to transpose the matrix
                 // Fourth parameter is the pointer to the matrix
-                glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+                glUniformMatrix4fv(getUniformLocation(uniform), 1, GL_FALSE, glm::value_ptr(matrix));
             }
         }
 
