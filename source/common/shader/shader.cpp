@@ -39,6 +39,16 @@ bool our::ShaderProgram::link() const {
     // linking error and print it so that you can know what is wrong with the
     // program. The returned string will be empty if there is no errors.
 
+    // Get the error message from the linking process
+    std::string error = checkForLinkingErrors(program);
+    // Check if there is an error
+    if (!error.empty()) {
+        // Print the error message
+        std::cout << "ERROR: Couldn't link shader program: " << error << std::endl;
+        // Return false to indicate that the linking process failed
+        return false;
+    }
+    // We return true if the linking succeeded
     return true;
 }
 
