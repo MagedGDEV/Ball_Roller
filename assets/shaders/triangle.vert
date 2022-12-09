@@ -17,4 +17,6 @@ out Varyings {
 //TODO: (Req 1) Finish this shader
 
 void main(){
+
+    vs_out.color = vec3(1.0, 0.0, 0.0);
 }

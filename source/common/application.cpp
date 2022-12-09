@@ -242,10 +242,10 @@ int our::Application::run(int run_for_frames) {
     //Game loop
     while(!glfwWindowShouldClose(window)){
 
-        int ID = 1180358;
-        
-        glClearColor((ID%100)/100.0f,(((int)ID/100)%100)/100.0f ,(((int)ID/100)%10000)/100.0f , 1.0f); 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+        // int ID = 1180358;
+
+        // glClearColor((ID%100)/100.0f,(((int)ID/100)%100)/100.0f ,(((int)ID/100)%10000)/100.0f , 1.0f); 
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         if(run_for_frames != 0 && current_frame >= run_for_frames) break;
         glfwPollEvents(); // Read all the user events and call relevant callbacks.
 

@@ -25,6 +25,7 @@ namespace our {
             //TODO: (Req 1) Delete a shader program
             // Delete the shader program (OpenGL object name) and all the attached shaders
             // to free the memory
+            if (program != 0)
             glDeleteProgram(program);
         }
 
@@ -54,7 +55,7 @@ namespace our {
             // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (float)
-                glUniform1f(getUniformLocation(uniform), value);
+                glUniform1f(location, value);
             }
         }
 
@@ -66,7 +67,7 @@ namespace our {
             // // check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (unsigned integer)
-                glUniform1ui(getUniformLocation(uniform), value);
+                glUniform1ui(location, value);
             }
         }
 
@@ -78,7 +79,7 @@ namespace our {
             //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (integer)
-                glUniform1i(getUniformLocation(uniform), value);
+                glUniform1i(location, value);
             }
         }
 
@@ -90,7 +91,7 @@ namespace our {
             //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (2D float vector)
-                glUniform2f(getUniformLocation(uniform), value.x, value.y);
+                glUniform2f(location, value.x, value.y);
             }
         }
 
@@ -102,7 +103,7 @@ namespace our {
             //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (3D float vector)
-                glUniform3f(getUniformLocation(uniform), value.x, value.y, value.z);
+                glUniform3f(location, value.x, value.y, value.z);
             }
         }
 
@@ -114,7 +115,7 @@ namespace our {
             //check if the uniform exists
             if (location != -1) {
                 // Set the value of the uniform and change it to the given value (4D float vector)
-                glUniform4f(getUniformLocation(uniform), value.x, value.y, value.z, value.w);
+                glUniform4f(location, value.x, value.y, value.z, value.w);
             }
         }
 
@@ -130,7 +131,7 @@ namespace our {
                 // we are sending only one matrix and the uniform is not an array of matrices
                 // Third parameter is GL_FALSE because we don't want to transpose the matrix
                 // Fourth parameter is the pointer to the matrix
-                glUniformMatrix4fv(getUniformLocation(uniform), 1, GL_FALSE, glm::value_ptr(matrix));
+                glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
             }
         }
 
@@ -141,8 +142,8 @@ namespace our {
         // and we don't want to have two shader programs with the same OpenGL object name
         // because it will cause problems when we try to delete the shader program
         // since this will lead to  deleting the same OpenGL object name twice
-        ShaderProgram(const ShaderProgram&) = delete;
-        ShaderProgram& operator=(const ShaderProgram&) = delete;
+        ShaderProgram(ShaderProgram const &) = delete;
+        ShaderProgram &operator=(ShaderProgram  const &) = delete;
     };
 
 }

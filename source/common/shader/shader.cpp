@@ -29,7 +29,7 @@ bool our::ShaderProgram::attach(const std::string &filename, GLenum type) const 
     // Second parameter is the number of strings to set the source code to
     // Third parameter is the source code of the shader
     // Fourth parameter is the length of the source code of the shader
-    glShaderSource(shader, 1, &sourceCStr, NULL);
+    glShaderSource(shader, 1, &sourceCStr, nullptr);
     // Compile the shader object
     glCompileShader(shader);
     
@@ -43,7 +43,8 @@ bool our::ShaderProgram::attach(const std::string &filename, GLenum type) const 
     // Check if there is an error
     if (!error.empty()) {
         // Print the error message
-        std::cout << "ERROR: Couldn't compile shader: " << error << std::endl;
+        std::cout << "ERROR: Couldn't compile shader in " << filename <<": " << error << std::endl;
+        glDeleteShader(shader);
         // Return false to indicate that the compilation process failed
         return false;
     }
