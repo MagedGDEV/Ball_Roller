@@ -18,9 +18,14 @@ namespace our {
     public:
         ShaderProgram(){
             //TODO: (Req 1) Create A shader program
+            // Create an empty shader program (OpenGL object name) where shaders can be attached to
+            program = glCreateProgram();
         }
         ~ShaderProgram(){
             //TODO: (Req 1) Delete a shader program
+            // Delete the shader program (OpenGL object name) and all the attached shaders
+            // to free the memory
+            glDeleteProgram(program);
         }
 
         bool attach(const std::string &filename, GLenum type) const;
