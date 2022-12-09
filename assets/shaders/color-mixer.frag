@@ -23,8 +23,9 @@ out vec4 frag_color;
 void main(){
     
 
-    frag_color.x = fs_in.color.x;
-    frag_color.y = fs_in.color.y;
-    frag_color.z = fs_in.color.z;
-    frag_color.w = 1.0;
+    // frag_color.x = fs_in.color.x;
+    // frag_color.y = fs_in.color.y;
+    // frag_color.z = fs_in.color.z;
+    frag_color = vec4( 1, 0, 0, 1);
+
 }
