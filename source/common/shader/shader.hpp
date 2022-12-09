@@ -136,6 +136,12 @@ namespace our {
 
         //TODO: (Req 1) Delete the copy constructor and assignment operator.
         //Question: Why do we delete the copy constructor and assignment operator?
+        
+        //Answer: Because we don't want to copy the shader program because it is a resource
+        // and we don't want to have two shader programs with the same OpenGL object name
+        // because it will cause problems when we try to delete the shader program
+        // since this will lead to  deleting the same OpenGL object name twice
+        ShaderProgram(const ShaderProgram&) = delete;
     };
 
 }
