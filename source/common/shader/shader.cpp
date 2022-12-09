@@ -26,6 +26,16 @@ bool our::ShaderProgram::attach(const std::string &filename, GLenum type) const 
     // compilation error and print it so that you can know what is wrong with
     // the shader. The returned string will be empty if there is no errors.
 
+    // Get the error message from the compilation process
+    std::string error = checkForShaderCompilationErrors(program);
+    // Check if there is an error
+    if (!error.empty()) {
+        // Print the error message
+        std::cerr << "ERROR: Couldn't compile shader: " << error << std::endl;
+        // Return false to indicate that the compilation process failed
+        return false;
+    }
+
     //We return true if the compilation succeeded
     return true;
 }
@@ -44,7 +54,7 @@ bool our::ShaderProgram::link() const {
     // Check if there is an error
     if (!error.empty()) {
         // Print the error message
-        std::cout << "ERROR: Couldn't link shader program: " << error << std::endl;
+        std::cerr << "ERROR: Couldn't link shader program: " << error << std::endl;
         // Return false to indicate that the linking process failed
         return false;
     }
