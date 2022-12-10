@@ -10,7 +10,17 @@ namespace our {
     // HINT: to convert euler angles to a rotation matrix, you can use glm::yawPitchRoll
     glm::mat4 Transform::toMat4() const {
         //TODO: (Req 3) Write this function
-        return glm::mat4(1.0f); 
+        //we follow the order of scaling, rotation and translation
+        //so we need to create our TRS (transformation) matrix
+        //translation matrix 
+        glm::mat4 mat = glm::translate(glm::mat4(1.0f), position);
+        
+        //roll, pitch, yaw rotation
+        mat = mat*glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+
+        //scaling
+        mat = glm::scale(mat, scale);
+        return mat; 
     }
 
      // Deserializes the entity data and components from a json object
