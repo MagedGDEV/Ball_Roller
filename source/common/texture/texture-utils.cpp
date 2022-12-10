@@ -1,3 +1,5 @@
+
+
 #include "texture-utils.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -31,11 +33,36 @@ our::Texture2D* our::texture_utils::loadImage(const std::string& filename, bool 
         std::cerr << "Failed to load image: " << filename << std::endl;
         return nullptr;
     }
+
     // Create a texture
     our::Texture2D* texture = new our::Texture2D();
     //Bind the texture such that we upload the image data to its storage
     //TODO: (Req 5) Finish this function to fill the texture with the data found in "pixels"
+    //First, we need to bind the texture to GL_TEXTURE_2D
+    texture->bind();
     
+    //Then, we need to tell Opengl how our pixels will be aligned to be transfered from RAM to VRAM
+    ///The default value is 4 which means that each row of pixels will be aligned to 4 bytes
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    
+    //Now we can upload the image data to the texture
+    //The first argument is the target texture which is GL_TEXTURE_2D
+    //The second argument is the mipmap level which is 0 for the base level
+    //The third argument is the internal format of the texture which is GL_RGBA8
+    //The fourth and fifth arguments are the width and height of the texture
+    //The sixth argument is the border which is 0
+    //The seventh and eighth arguments are the format and type of the pixel data which is GL_RGBA and GL_UNSIGNED_BYTE
+    //The last argument is the actual pixel data
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    
+    //Afterwards, we will check if it is needed to generate mipmaps for this texture
+    //If the boolean is true, we will generate mipmaps for this texture
+    if(generate_mipmap)
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+    //Finally, we need to unbind the texture
+    texture->unbind();
+
     stbi_image_free(pixels); //Free image data after uploading to GPU
     return texture;
 }
