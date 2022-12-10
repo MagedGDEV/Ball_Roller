@@ -13,14 +13,14 @@ namespace our {
         //we follow the order of scaling, rotation and translation
         
         //scaling
-        glm::mat4 mat = glm::scale(glm::mat4(1.0f), scale);
+        glm::mat4 mat = glm::translate(glm::mat4(1.0f), position);
         
-        //roll,, pitch, yaw rotation (z, x, y)
-        mat = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+        //roll, pitch, yaw rotation
+        mat = mat*glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
 
         //translation
-        mat = glm::translate(mat, position);
-        return glm::mat4(1.0f); 
+        mat = glm::scale(mat, scale);
+        return mat; 
     }
 
      // Deserializes the entity data and components from a json object
