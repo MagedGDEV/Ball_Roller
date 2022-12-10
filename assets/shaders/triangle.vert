@@ -6,7 +6,7 @@
 // (1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)
 
 out Varyings {
-    vec3 color;
+    vec4 color;
 } vs_out;
 
 // Currently, the triangle is always in the same position, but we don't want that.
@@ -14,17 +14,28 @@ out Varyings {
 // Each vertex "v" should be transformed to be "scale * v + translation".
 // The default value for "translation" is (0.0, 0.0) and for "scale" is (1.0, 1.0).
 
+// set the default scale and translation values
+uniform vec2 scale = vec2 (1.0, 1.0);
+uniform vec2 translation = vec2 (0.0, 0.0);
 //TODO: (Req 1) Finish this shader
 
 void main(){
 
-    vs_out.color = vec3(1.0, 1.0, 1.0);
     const vec3 positions[3] = vec3[3](
-        vec3(0.5, -0.5, 0.0),
-        vec3( -0.5, -0.5, 0.0),
+        vec3(-0.5, -0.5, 0.0),
+        vec3( 0.5, -0.5, 0.0),
         vec3( 0.0,  0.5, 0.0)
     );
 
-    gl_Position = vec4(positions[gl_VertexID], 1.0);
+    const vec4 colors[3] = vec4[3](
+        vec4(1.0, 0.0, 0.0, 1.0),
+        vec4(0.0, 1.0, 0.0, 1.0),
+        vec4(0.0, 0.0, 1.0, 1.0)
+    );
 
+    
+    vec3 pos = positions[gl_VertexID];
+    pos.xy = pos.xy * scale.xy + translation.xy;
+    gl_Position = vec4(pos, 1.0);
+    vs_out.color = colors[gl_VertexID];
 }
