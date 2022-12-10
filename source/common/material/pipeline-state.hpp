@@ -42,6 +42,60 @@ namespace our {
         // For example, if faceCulling.enabled is true, you should call glEnable(GL_CULL_FACE), otherwise, you should call glDisable(GL_CULL_FACE)
         void setup() const {
             //TODO: (Req 4) Write this function
+            // Note: You can use the following functions to configure OpenGL's pipeline:
+            // glEnable, glDisable, glCullFace, glFrontFace, glDepthFunc, glBlendEquation, glBlendFunc, glBlendColor, glColorMask, glDepthMask
+
+            // check if face culling is enabled
+            if (faceCulling.enabled) 
+            {
+                // enable face culling
+                glEnable(GL_CULL_FACE);
+                // set the culled face
+                glCullFace(faceCulling.culledFace);
+                // set the front face
+                glFrontFace(faceCulling.frontFace);
+            }
+            else 
+            {
+                // disable face culling if it is not enabled
+                glDisable(GL_CULL_FACE);
+            }
+
+            // check if depth testing is enabled
+            if (depthTesting.enabled) 
+            {
+                // enable depth testing
+                glEnable(GL_DEPTH_TEST);
+                // set the depth function
+                glDepthFunc(depthTesting.function);
+            }
+            else
+            {
+                // disable depth testing if it is not enabled
+                glDisable(GL_DEPTH_TEST);
+            }
+
+            if (blending.enabled) 
+            {
+                // enable blending
+                glEnable(GL_BLEND);
+                // set the blending equation
+                glBlendEquation(blending.equation);
+                // set the blending factors
+                glBlendFunc(blending.sourceFactor, blending.destinationFactor);
+                // set the blending constant color
+                glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a);
+            }
+            else 
+            {
+                // disable blending if it is not enabled
+                glDisable(GL_BLEND);
+            }
+
+            // set the color mask according to the color mask specified in the pipeline state
+            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
+            // set the depth mask according to the depth mask specified in the pipeline state
+            glDepthMask(depthMask);
         }
 
         // Given a json object, this function deserializes a PipelineState structure
