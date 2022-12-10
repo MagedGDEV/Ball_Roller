@@ -83,7 +83,7 @@ namespace our {
             glVertexAttribPointer(ATTRIB_LOC_COLOR, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
             glEnableVertexAttribArray(ATTRIB_LOC_COLOR);
 
-            glVertexAttribPointer(ATTRIB_LOC_TEXCOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+            glVertexAttribPointer(ATTRIB_LOC_TEXCOORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tex_coord));
             glEnableVertexAttribArray(ATTRIB_LOC_TEXCOORD);
 
             glVertexAttribPointer(ATTRIB_LOC_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
@@ -101,11 +101,26 @@ namespace our {
         void draw() 
         {
             //TODO: (Req 2) Write this function
+
+            // Bind the vertex array object
+            glBindVertexArray(VAO);
+
+            // Draw the elements
+            // Specify the mode of the drawing
+            // First parameter is the type of the primitive to render
+            // Second parameter is the number of elements to be rendered
+            // Third parameter is the type of the indices
+            // Fourth parameter is the offset of the first index
+            glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0);
         }
 
         // this function should delete the vertex & element buffers and the vertex array object
         ~Mesh(){
             //TODO: (Req 2) Write this function
+            // Delete the buffer objects and the vertex array object
+            glDeleteBuffers(1, &VBO);
+            glDeleteBuffers(1, &EBO);
+            glDeleteVertexArrays(1, &VAO);
         }
 
         Mesh(Mesh const &) = delete;
