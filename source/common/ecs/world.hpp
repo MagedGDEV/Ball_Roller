@@ -68,7 +68,6 @@ namespace our {
             //TODO: (Req 8) Delete all the entites and make sure that the containers are empty
 
             for (auto entity : entities) {
-                entities.erase(entity);
                 delete entity;
             }
             entities.clear();
