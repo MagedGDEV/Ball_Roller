@@ -11,14 +11,14 @@ namespace our {
     glm::mat4 Transform::toMat4() const {
         //TODO: (Req 3) Write this function
         //we follow the order of scaling, rotation and translation
-        
-        //scaling
+        //so we need to create our TRS (transformation) matrix
+        //translation matrix 
         glm::mat4 mat = glm::translate(glm::mat4(1.0f), position);
         
         //roll, pitch, yaw rotation
         mat = mat*glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
 
-        //translation
+        //scaling
         mat = glm::scale(mat, scale);
         return mat; 
     }
