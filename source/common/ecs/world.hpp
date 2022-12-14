@@ -33,7 +33,7 @@ namespace our {
             entity->world = this;
             // Insert it in the entities container
             entities.insert(entity);
-            return nullptr;
+            return entity;
         }
 
         // This returns and immutable reference to the set of all entites in the world.
