@@ -139,10 +139,7 @@ namespace our {
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand& first, const RenderCommand& second){
             //TODO: (Req 9) Finish this function
             // HINT: the following return should return true "first" should be drawn before "second". 
-            if(first.center.z < second.center.z)
-                return true;
-            else
-                return false;
+            return glm::dot(cameraForward, first.center) > glm::dot(cameraForward, second.center);
         });
 
         //TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
