@@ -48,10 +48,12 @@ namespace our {
         TintedMaterial::setup();
         shader->set("alphaThreshold", alphaThreshold);
 
-        //bind texture and sampler to a texture unit
+        glActiveTexture(GL_TEXTURE1);
+        // binding texture and sampler
         texture->bind();
-        sampler->bind(texture->getOpenGLName());
-        shader->set("tex", texture->getOpenGLName());
+        sampler->bind(1);
+        // setting tex uniform
+        shader->set("tex", 1);
 
     }
 
