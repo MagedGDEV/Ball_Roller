@@ -1,6 +1,7 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
+#include <iostream>
 
 namespace our {
 
@@ -58,10 +59,10 @@ namespace our {
             //TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
             // Hints: The color format can be (Red, Green, Blue and Alpha components with 8 bits for each channel).
             // The depth format can be (Depth component with 24 bits).
-            GLuint rt_levels = glm::floor(glm::log2(glm::max<float>(windowSize.x, windowSize.y))) + 1;
+            GLuint mipmapLevels = glm::floor(glm::log2(glm::max<float>(windowSize.x, windowSize.y))) + 1;
             colorTarget = new Texture2D();
             colorTarget->bind();
-            glTexStorage2D(GL_TEXTURE_2D, rt_levels, GL_RGBA8, windowSize.x, windowSize.y);
+            glTexStorage2D(GL_TEXTURE_2D, mipmapLevels, GL_RGBA8, windowSize.x, windowSize.y);
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);
             depthTarget = new Texture2D();
             depthTarget->bind();
@@ -69,7 +70,7 @@ namespace our {
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);
             if (glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
                 // print error using fprintf
-                fprintf(stderr, "Framebuffer is not complete!");
+                std::cerr << "Framebuffer is not complete" << std::endl;
             }
             //TODO: (Req 11) Unbind the framebuffer just to be safe
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -232,7 +233,9 @@ namespace our {
             //TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
             postprocessMaterial->setup();
             // draw fullscreen triangle
+            glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);
+            glBindVertexArray(0);
         }
     }
 
