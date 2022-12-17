@@ -153,6 +153,8 @@ namespace our {
 
         //TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         // HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
+        // HINT: The camera forward direction is the negative z axis of the camera view matrix
+        // the negative z axis is the center of the camera view
         glm::vec3 cameraForward = glm::vec3(0.0f, 0.0f, -1.0f);
         // we sort transparent commands so that we draw from farthest to nearest
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand& first, const RenderCommand& second){
@@ -187,6 +189,8 @@ namespace our {
         }
 
         //TODO: (Req 9) Clear the color and depth buffers
+        // sets the color buffer to the preset color
+        // sets the depth buffer to the preset depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         

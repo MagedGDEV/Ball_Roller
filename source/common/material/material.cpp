@@ -49,6 +49,7 @@ namespace our {
         //TODO: (Req 7) Write this function
         TintedMaterial::setup();
         // set alphaThreshold uniform
+        // values less than alphaThreshold will be discarded
         shader->set("alphaThreshold", alphaThreshold);
 
         // set GL_TEXTURE1 as active texture unit
