@@ -51,7 +51,9 @@ namespace our {
         glActiveTexture(GL_TEXTURE1);
         // binding texture and sampler
         texture->bind();
-        sampler->bind(1);
+        if (sampler != nullptr) {
+            sampler->bind(1);
+        }
         // setting tex uniform
         shader->set("tex", 1);
     }
