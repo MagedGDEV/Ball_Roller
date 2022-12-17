@@ -54,7 +54,6 @@ namespace our {
         sampler->bind(1);
         // setting tex uniform
         shader->set("tex", 1);
-
     }
 
     // This function read the material data from a json object
