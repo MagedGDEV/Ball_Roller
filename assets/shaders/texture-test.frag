@@ -19,9 +19,4 @@ void main(){
     //So using the sampler, we will fetch the color of the pixel in the texture which has the passed tex_coord
     frag_color = texture(tex, fs_in.tex_coord);
 
-
-
-
-
-
 }

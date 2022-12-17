@@ -15,6 +15,8 @@ namespace our {
         // This constructor creates an OpenGL sampler and saves its object name in the member variable "name" 
         Sampler() {
             //TODO: (Req 6) Complete this function
+            // First parameter is the number of samplers to be generated
+            // Second parameter is the object name of this sampler
             glGenSamplers(1, &name);
         };
 
@@ -34,9 +36,11 @@ namespace our {
         // This static method ensures that no sampler is bound to the given texture unit
         static void unbind(GLuint textureUnit){
             //TODO: (Req 6) Complete this function
+            //We need to unbind the sampler by binding it to 0
             glBindSampler(textureUnit, 0);
         }
-
+        // Now, instead of setting the parameters for each texture, we just set it to the sampler and each unit that uses 
+        //that sampler will automatically use these parameters.
         // This function sets a sampler paramter where the value is of type "GLint"
         // This can be used to set the filtering and wrapping parameters
         void set(GLenum parameter, GLint value) const {

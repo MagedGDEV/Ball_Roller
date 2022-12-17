@@ -62,14 +62,18 @@ our::Texture2D* our::texture_utils::loadImage(const std::string& filename, bool 
     //The first argument is the target texture which is GL_TEXTURE_2D
     //The second argument is the mipmap level which is 0 for the base level
     //The third argument is the internal format of the texture which is GL_RGBA8
+    //internalformat (GLint): The format in which the texture data will be stored in the VRAM. Since we have 4 channels (8 bits each) , we will store it as GL_RGBA8.
     //The fourth and fifth arguments are the width and height of the texture
     //The sixth argument is the border which is 0
     //The seventh and eighth arguments are the format and type of the pixel data which is GL_RGBA and GL_UNSIGNED_BYTE
-    //The last argument is the actual pixel data
+    //format (GLenum): this is the format of the data as it is stored in the array "data" on the RAM. Since we have 4 components, we use GL_RGBA.
+    //type (GLenum): this is the data type of each component in the array "data" on the RAM. We stored it as uint8 so we pick GL_UNSIGNED_BYTE.
+    //The last argument is the actual pixel data. The function will read the data and send it to the GPU.
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     
     //Afterwards, we will check if it is needed to generate mipmaps for this texture
     //If the boolean is true, we will generate mipmaps for this texture
+    //This function will generate the mip map for the texture. It will automatically generate all the mip level till we reach a mip level whose size is 1x1 pixel.
     if(generate_mipmap)
         glGenerateMipmap(GL_TEXTURE_2D);
 
