@@ -55,11 +55,13 @@ namespace our {
         glActiveTexture(GL_TEXTURE1);
         // bind texture to active texture unit
         texture->bind();
-        // bind sampler to current active texture unit
-        sampler->bind(1);
+        // bind sampler to active texture unit 
+        // if sampler is not null
+        if (sampler != nullptr) {
+            sampler->bind(1);
+        }
         // setting tex uniform
         shader->set("tex", 1);
-
     }
 
     // This function read the material data from a json object

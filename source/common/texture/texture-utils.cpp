@@ -10,6 +10,19 @@
 our::Texture2D* our::texture_utils::empty(GLenum format, glm::ivec2 size){
     our::Texture2D* texture = new our::Texture2D();
     //TODO: (Req 11) Finish this function to create an empty texture with the given size and format
+    //Then, we need to tell Opengl how our pixels will be aligned to be transfered from RAM to VRAM
+    ///The default value is 4 which means that each row of pixels will be aligned to 4 bytes
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+    //Now we can upload the image data to the texture
+    //The first argument is the target texture which is GL_TEXTURE_2D
+    //The second argument is the mipmap level which is 0 for the base level
+    //The third argument is the internal format of the texture which is GL_RGBA8
+    //The fourth and fifth arguments are the width and height of the texture
+    //The sixth argument is the border which is 0
+    //The seventh and eighth arguments are the format and type of the pixel data which is GL_RGBA and GL_UNSIGNED_BYTE
+    //The last argument is the actual pixel data
+    glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
     return texture;
 }
