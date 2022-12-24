@@ -211,7 +211,13 @@ namespace our {
             glm::mat4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix();
 
             //TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
-
+            // get camera position but without the rotation as a transformation matrix
+            glm::mat4 cameraPositionNoRotation = glm::mat4 (
+                1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                cameraPosition[3][0], cameraPosition[3][1], cameraPosition[3][2], 1.0f
+            );
             //TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1)
             // We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
             glm::mat4 alwaysBehindTransform = glm::mat4 (
@@ -220,7 +226,7 @@ namespace our {
                 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 1.0f
             );
-            glm::mat4 finalMatrix = alwaysBehindTransform * VP * cameraPosition;
+            glm::mat4 finalMatrix = alwaysBehindTransform * VP * cameraPositionNoRotation;
             //TODO: (Req 10) set the "transform" uniform
             skyMaterial->shader->set("transform", finalMatrix);
             //TODO: (Req 10) draw the sky sphere
