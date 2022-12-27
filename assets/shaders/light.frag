@@ -17,10 +17,6 @@ in Varyings{
 // create a struct to hold the light properties
 struct Light{
     int type;
-    vec3 diffuse;
-    vec3 specular;
-    vec3 ambient;
-
     vec3 position;
     vec3 direction;
 
@@ -36,8 +32,17 @@ struct Material{
     float shininess;
 };
 
+struct TexturedMaterial{
+    sampler2D albedo;
+    sampler2D specular;
+    sampler2D ambient_occlusion;
+    sampler2D roughness;
+    sampler2D emissive;
+};
+
 uniform Light lights[MAX_LIGHTS];
 uniform Material material;
+uniform TexturedMaterial textured_material;
 uniform int light_count;
 
 out vec4 frag_color;
@@ -48,6 +53,12 @@ void main(){
 
     int count = min(light_count, MAX_LIGHTS);
     vec3 accum_light = vec3(0.0f);
+    material.diffuse = texture(textured_material.albedo, fs_in.tex_coord).rgb;
+    material.specular = texture(textured_material.specular, fs_in.tex_coord).rgb;
+    material.ambient = material.diffuse * texture(textured_material.ambient_occlusion, fs_in.tex_coord).rgb;
+    material.emissive = texture(textured_material.emissive, fs_in.tex_coord).rgb;
+    float roughness = mix(0.05f, 1.0f, texture(textured_material.roughness, fs_in.tex_coord).r);
+    material.shininess = 2.0f / pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
 
     for(int i = 0; i<count; i++){
         Light light = lights[i];
@@ -74,12 +85,12 @@ void main(){
         vec3 reflected = reflect(light_dir, normal);
         flot lambert = max(dot(normal, -light_dir), 0.0f);
         float phong = pow(max(dot(reflected, view), 0.0f), material.shininess);
-        vec3 diffuse = material.diffuse * light.diffuse * lambert;
-        vec3 specular = material.specular * light.specular * phong;
-        vec3 ambient = material.ambient * light.ambient;
+        vec3 diffuse = material.diffuse * lambert;
+        vec3 specular = material.specular * phong;
+        vec3 ambient = material.ambient;
         accum_light += (diffuse + specular) * attenuation + ambient;
     }
 
-    frag_color = fs_in.color * vec4(accum_light, 1.0f);
+    frag_color = fs_in.color * vec4(accum_light, 1.0f) + vec4(material.emissive, 1.0f);
 }
 
