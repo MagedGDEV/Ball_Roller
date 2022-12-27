@@ -29,5 +29,4 @@ namespace our {
         attenuation = glm::vec3(data["attenuation"][0], data["attenuation"][1], data["attenuation"][2]);
         coneAngle = glm::vec2(data["coneAngle"][0], data["coneAngle"][1]);
     }
-
 }
