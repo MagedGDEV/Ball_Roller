@@ -26,7 +26,12 @@ namespace our {
         }
         
         color = glm::vec3(data["color"][0], data["color"][1], data["color"][2]);
-        attenuation = glm::vec3(data["attenuation"][0], data["attenuation"][1], data["attenuation"][2]);
-        coneAngle = glm::vec2(data["coneAngle"][0], data["coneAngle"][1]);
+        // attenuation is read as a vector of 3 floats in the json file (constant, linear, quadratic)
+        attenuationConstant = data["attenuation"][0];
+        attenuationLinear = data["attenuation"][1];
+        attenuationQuadratic = data["attenuation"][2];
+        // cone angles are read as a vector of 2 floats in the json file (inner, outer)
+        innerAngle = data["coneAngles"][0];
+        outerAngle = data["coneAngles"][1];
     }
 }
