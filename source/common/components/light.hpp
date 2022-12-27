@@ -18,8 +18,8 @@ namespace our {
     
         LightType lightType; // The type of the light
         glm::vec3 color; // The color of the light
-        glm::vec3 attenuation; // The attenuation of the light (constant, linear, quadratic)
-        glm::vec2 coneAngle; // The cone angle of the light (inner, outer)
+        glm::vec3 attenuation; // The attenuation of the light (constant, linear, quadratic) used for point and spot lights
+        glm::vec2 coneAngle; // The cone angle of the light (inner, outer) used for spot lights
         // positon and direction are calculated from the entity component
 
         // The ID of this component type is "Light"
