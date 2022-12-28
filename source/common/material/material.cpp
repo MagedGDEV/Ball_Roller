@@ -24,6 +24,7 @@ namespace our {
         }
         shader = AssetLoader<ShaderProgram>::get(data["shader"].get<std::string>());
         transparent = data.value("transparent", false);
+        isLit = data.value("isLit", false);
     }
 
     // This function should call the setup of its parent and
@@ -72,6 +73,57 @@ namespace our {
         alphaThreshold = data.value("alphaThreshold", 0.0f);
         texture = AssetLoader<Texture2D>::get(data.value("texture", ""));
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
+    }
+
+    void LitMaterial::setup() const {
+        // Since a lit material can be a textured material, we call the setup of its parent
+        TexturedMaterial::setup();
+        // Then we set the uniforms for the material properties
+        if (albedo != nullptr) {
+            glActiveTexture(GL_TEXTURE2);
+            albedo->bind();
+            sampler->bind(2);
+            shader->set("material.albedo", 2);
+        }
+        // If the material has a specular texture, we bind it to a texture unit and send the unit number to the shader
+        if (specular != nullptr) {
+            glActiveTexture(GL_TEXTURE3);
+            specular->bind();
+            sampler->bind(3);
+            shader->set("material.specular", 3);
+        }
+        // If the material has an ambient occlusion texture, we bind it to a texture unit and send the unit number to the shader
+        if (ambientOcclusion != nullptr) {
+            glActiveTexture(GL_TEXTURE4);
+            ambientOcclusion->bind();
+            sampler->bind(4);
+            shader->set("material.ambient_occlusion", 4);
+        }
+        // If the material has an emissive texture, we bind it to a texture unit and send the unit number to the shader
+        if (emissive != nullptr) {
+            glActiveTexture(GL_TEXTURE5);
+            emissive->bind();
+            sampler->bind(5);
+            shader->set("material.emissive", 5);
+        }
+        // If the material has a roughness texture, we bind it to a texture unit and send the unit number to the shader
+        if (roughness != nullptr) {
+            glActiveTexture(GL_TEXTURE6);
+            roughness->bind();
+            sampler->bind(6);
+            shader->set("material.roughness", 6);
+        }
+    }
+    // This function read the material data from a json object
+    void LitMaterial::deserialize(const nlohmann::json& data) {
+        TexturedMaterial::deserialize(data);
+        if (!data.is_object()) return;
+        // We get the textures from the asset loader
+        albedo = AssetLoader<Texture2D>::get(data.value("albedo", ""));
+        specular = AssetLoader<Texture2D>::get(data.value("specular", ""));
+        ambientOcclusion = AssetLoader<Texture2D>::get(data.value("ambient_occlusion", ""));
+        emissive = AssetLoader<Texture2D>::get(data.value("emissive", ""));
+        roughness = AssetLoader<Texture2D>::get(data.value("roughness", ""));
     }
 
 }
