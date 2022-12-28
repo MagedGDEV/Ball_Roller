@@ -13,7 +13,7 @@ uniform mat4 object_to_world_inv_transpose;
 // perform world to clip transformation
 uniform mat4 view_projection;
 // camera position in the world space
-uniform vec3 camera_position;
+uniform vec3 eye;
 
 out Varyings {
     vec4 color;
@@ -27,7 +27,7 @@ void main() {
     // get the position of the vertex in the world space
     vsout.world = (object_to_world * vec4(position, 1.0f)).xyz;
     // get view vector
-    vsout.view = camera_position - vsout.world;
+    vsout.view = eye - vsout.world;
     // get the surface normal in the world space
     // w component of the normal is 0 since it's a vector
     vsout.normal = normalize((object_to_world_inv_transpose * vec4(normal, 0.0f)).xyz);

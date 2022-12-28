@@ -146,6 +146,10 @@ namespace our {
                     opaqueCommands.push_back(command);
                 }
             }
+
+            if (auto light = entity->getComponent<LightComponent>(); light) {
+                lightObjects.push_back(light);
+            }
         }
 
         // If there is no camera, we return (we cannot render without a camera)
@@ -199,6 +203,44 @@ namespace our {
        for (auto command : opaqueCommands) {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
+
+            if (command.material->isLit)
+            {
+                command.material->shader->set("light_count", (int)lightObjects.size());
+                command.material->shader->set("view_projection", VP);
+                glm::mat4 model = command.localToWorld;
+                glm::mat4 model_inverse = glm::inverse(model);
+                command.material->shader->set("object_to_world", model);
+                command.material->shader->set("eye", model * glm::vec4(0, 0, 0, 1));
+                command.material->shader->set("object_to_world_inv_transpose", model_inverse);
+                for (int i = 0; i < (int)lightObjects.size(); i++)
+                {
+                    glm::vec3 lightPosition = glm::vec3(lightObjects[i]->getOwner()->localTransform.position);
+                    int type = (int)lightObjects[i]->lightType;
+                    float attenuationConstant = lightObjects[i]->attenuationConstant;
+                    float attenuationLinear = lightObjects[i]->attenuationLinear;
+                    float attenuationQuadratic = lightObjects[i]->attenuationQuadratic;
+                    float innerConeAngle = lightObjects[i]->innerAngle;
+                    float outerConeAngle = lightObjects[i]->outerAngle;
+                    glm::vec3 lightColor = lightObjects[i]->color;
+                    
+                    command.material->shader->set("lights[" + std::to_string(i) + "].position", lightPosition);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].type", type);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_constant", attenuationConstant);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_linear", attenuationLinear);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_quadratic", attenuationQuadratic);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].inner_angle", innerConeAngle);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].outer_angle", outerConeAngle);
+                    command.material->shader->set("lights[" + std::to_string(i) + "].color", lightColor);
+                    // set direction for directional light
+                    if (type == 0)
+                    {
+                        glm::vec3 lightDirection = glm::vec3(lightObjects[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
+                        command.material->shader->set("lights[" + std::to_string(i) + "].direction", lightDirection);
+                    }
+
+                }
+            }
             command.mesh->draw();
         }
 

@@ -12,13 +12,14 @@ in Varyings{
 #define TYPE_POINT 1
 #define TYPE_SPOT 2
 
-#define MAX_LIGHTS 10
+#define MAX_LIGHTS 16
 
 // create a struct to hold the light properties
 struct Light{
     int type;
     vec3 position;
     vec3 direction;
+    vec3 color;
 
     float attenuation_constant, attenuation_linear, attenuation_quadratic;
     float inner_angle, outer_angle;
@@ -53,12 +54,12 @@ void main(){
 
     int count = min(light_count, MAX_LIGHTS);
     vec3 accum_light = vec3(0.0f);
-    material.diffuse = texture(textured_material.albedo, fs_in.tex_coord).rgb;
-    material.specular = texture(textured_material.specular, fs_in.tex_coord).rgb;
-    material.ambient = material.diffuse * texture(textured_material.ambient_occlusion, fs_in.tex_coord).rgb;
-    material.emissive = texture(textured_material.emissive, fs_in.tex_coord).rgb;
+    vec3 diffuse = texture(textured_material.albedo, fs_in.tex_coord).rgb;
+    vec3 specular = texture(textured_material.specular, fs_in.tex_coord).rgb;
+    vec3 ambient = material.diffuse * texture(textured_material.ambient_occlusion, fs_in.tex_coord).rgb;
+    vec3 emissive = texture(textured_material.emissive, fs_in.tex_coord).rgb;
     float roughness = mix(0.05f, 1.0f, texture(textured_material.roughness, fs_in.tex_coord).r);
-    material.shininess = 2.0f / pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
+    float shininess = 2.0f / pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
 
     for(int i = 0; i<count; i++){
         Light light = lights[i];
@@ -77,20 +78,19 @@ void main(){
                             light.attenuation_linear * distance + 
                             light.attenuation_quadratic * distance * distance);
             if (light.type == TYPE_SPOT){
-                float angle acos(dot(light_dir, light.direction));
+                float angle = acos(dot(light_dir, light.direction));
                 attenuation *= smoothstep(light.outer_angle, light.inner_angle, angle);
             }
         }
 
         vec3 reflected = reflect(light_dir, normal);
-        flot lambert = max(dot(normal, -light_dir), 0.0f);
+        float lambert = max(dot(normal, -light_dir), 0.0f);
         float phong = pow(max(dot(reflected, view), 0.0f), material.shininess);
-        vec3 diffuse = material.diffuse * lambert;
-        vec3 specular = material.specular * phong;
-        vec3 ambient = material.ambient;
+        diffuse *= lambert;
+        specular *= phong;
         accum_light += (diffuse + specular) * attenuation + ambient;
     }
 
-    frag_color = fs_in.color * vec4(accum_light, 1.0f) + vec4(material.emissive, 1.0f);
+    frag_color = vec4(accum_light + emissive, 1.0f);
 }
 
