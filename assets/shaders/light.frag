@@ -30,7 +30,7 @@ struct Light {
     vec2 cone_angles;
 };
 
-#define MAX_LIGHTS 16
+#define MAX_LIGHTS 8
 
 uniform Material material;
 uniform int light_count;
