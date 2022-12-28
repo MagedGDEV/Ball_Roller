@@ -31,6 +31,7 @@
                 "wood": "assets/textures/wood.jpg",
                 "glass": "assets/textures/glass-panels.png",
                 "monkey": "assets/textures/monkey.png"
+
             },
             "meshes":{
                 "cube": "assets/models/cube.obj",
@@ -124,6 +125,19 @@
                     "tint": [1, 1, 1, 1],
                     "texture": "moon",
                     "sampler": "default"
+                },
+                "ball": {
+                    "type": "tinted",
+                    "shader": "tinted",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 0, 0, 1]
                 }
             }
         },
