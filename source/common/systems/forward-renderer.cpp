@@ -200,50 +200,42 @@ namespace our {
         
         //TODO: (Req 9) Draw all the opaque commands
         // Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
-       for (auto command : opaqueCommands) {
-            command.material->setup();
-            command.material->shader->set("transform", VP * command.localToWorld);
-
-            if (command.material->isLit)
+       for(int i = 0; i < opaqueCommands.size(); i++)
             {
-                command.material->shader->set("light_count", (int)lightObjects.size());
-                command.material->shader->set("view_projection", VP);
-                glm::mat4 model = command.localToWorld;
-                glm::mat4 model_inverse = glm::inverse(model);
-                command.material->shader->set("object_to_world", model);
-                command.material->shader->set("eye", model * glm::vec4(0, 0, 0, 1));
-                command.material->shader->set("object_to_world_inv_transpose", model_inverse);
-                for (int i = 0; i < (int)lightObjects.size(); i++)
+                // setting the transform uniform
+                opaqueCommands[i].material->setup();
+                opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
+                // before we draw the object we check the effect the of light on the object if it contains lit material
+                if(opaqueCommands[i].material->isLit || dynamic_cast<LitMaterial*>(opaqueCommands[i].material)) 
                 {
-                    glm::vec3 lightPosition = glm::vec3(lightObjects[i]->getOwner()->localTransform.position);
-                    int type = (int)lightObjects[i]->lightType;
-                    float attenuationConstant = lightObjects[i]->attenuationConstant;
-                    float attenuationLinear = lightObjects[i]->attenuationLinear;
-                    float attenuationQuadratic = lightObjects[i]->attenuationQuadratic;
-                    float innerConeAngle = lightObjects[i]->innerAngle;
-                    float outerConeAngle = lightObjects[i]->outerAngle;
-                    glm::vec3 lightColor = lightObjects[i]->color;
-                    
-                    command.material->shader->set("lights[" + std::to_string(i) + "].position", lightPosition);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].type", type);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_constant", attenuationConstant);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_linear", attenuationLinear);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].attenuation_quadratic", attenuationQuadratic);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].inner_angle", innerConeAngle);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].outer_angle", outerConeAngle);
-                    command.material->shader->set("lights[" + std::to_string(i) + "].color", lightColor);
-                    // set direction for directional light
-                    if (type == 0)
+                    opaqueCommands[i].material->shader->set("light_count", (int)lightObjects.size());
+                    opaqueCommands[i].material->shader->set("v_p", VP);
+                    glm::mat4 Model = opaqueCommands[i].localToWorld;
+                    glm::mat4 Model_IT = glm::inverse(Model);
+                    opaqueCommands[i].material->shader->set("object_to_world", Model);
+                    opaqueCommands[i].material->shader->set("object_to_world_it", Model_IT);
+                    glm::vec3 eye = glm::vec3(Model * glm::vec4(0, 0, 0, 1));
+                    opaqueCommands[i].material->shader->set("eye",  eye);
+                    for(int j = 0; j < lightObjects.size(); j++)
                     {
-                        glm::vec3 lightDirection = glm::vec3(lightObjects[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
-                        command.material->shader->set("lights[" + std::to_string(i) + "].direction", lightDirection);
+                        // getting the light position from its parent entity
+                        glm::vec3 lightPosition = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,0,1);
+                        int type = (int)lightObjects[j]->lightType;
+                        glm::vec3 attenuation = glm::vec3(lightObjects[j]->attenuationConstant, lightObjects[j]->attenuationLinear, lightObjects[j]->attenuationQuadratic);
+                        glm::vec3 color = lightObjects[j]->color;
+                        glm::vec2 cone_angles = glm::vec2(lightObjects[j]->innerAngle, lightObjects[j]->outerAngle);
+                        // Setting the lights uniform
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].type", type);
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].position", lightPosition);
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].color", color);
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].attenuation", attenuation);
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].cone_angles", cone_angles);
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].direction", glm::normalize(lightObjects[j]->direction));
                     }
-
                 }
+                // drawing the mesh
+                opaqueCommands[i].mesh->draw();
             }
-            command.mesh->draw();
-        }
-
         // If there is a sky material, draw the sky
         if(this->skyMaterial){
             //TODO: (Req 10) setup the sky material

@@ -1,96 +1,76 @@
 #version 330 core
 
-in Varyings{
-    vec4 color;
-    vec2 tex_coord;
-    vec3 world;
-    vec3 view;
+in Varyings {
     vec3 normal;
-}fs_in;
+    vec3 view;
+    vec3 world;
+    vec2 tex_coord;
+} fs_in;
 
-#define TYPE_DIRECTIONAL 0
-#define TYPE_POINT 1
-#define TYPE_SPOT 2
+out vec4 frag_color;
 
-#define MAX_LIGHTS 16
+struct Material {
+    sampler2D albedo;
+    sampler2D specular;
+    sampler2D roughness;
+    sampler2D ambient_occlusion;
+    sampler2D emission;
+};
 
-// create a struct to hold the light properties
-struct Light{
+#define DIRECTIONAL 0
+#define POINT 1
+#define SPOT 2
+
+struct Light {
     int type;
     vec3 position;
     vec3 direction;
     vec3 color;
-
-    float attenuation_constant, attenuation_linear, attenuation_quadratic;
-    float inner_angle, outer_angle;
+    vec3 attenuation;
+    vec2 cone_angles;
 };
 
-// create a struct to hold the material properties
-struct Material{
-    vec3 diffuse;
-    vec3 specular;
-    vec3 ambient;
-    float shininess;
-};
+#define MAX_LIGHTS 16
 
-struct TexturedMaterial{
-    sampler2D albedo;
-    sampler2D specular;
-    sampler2D ambient_occlusion;
-    sampler2D roughness;
-    sampler2D emissive;
-};
-
-uniform Light lights[MAX_LIGHTS];
 uniform Material material;
-uniform TexturedMaterial textured_material;
 uniform int light_count;
-
-out vec4 frag_color;
+uniform Light lights[MAX_LIGHTS];
 
 void main(){
     vec3 normal = normalize(fs_in.normal);
     vec3 view = normalize(fs_in.view);
 
-    int count = min(light_count, MAX_LIGHTS);
-    vec3 accum_light = vec3(0.0f);
-    vec3 diffuse = texture(textured_material.albedo, fs_in.tex_coord).rgb;
-    vec3 specular = texture(textured_material.specular, fs_in.tex_coord).rgb;
-    vec3 ambient = material.diffuse * texture(textured_material.ambient_occlusion, fs_in.tex_coord).rgb;
-    vec3 emissive = texture(textured_material.emissive, fs_in.tex_coord).rgb;
-    float roughness = mix(0.05f, 1.0f, texture(textured_material.roughness, fs_in.tex_coord).r);
-    float shininess = 2.0f / pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
+    vec3 material_albedo = texture(material.albedo, fs_in.tex_coord).rgb;
+    vec3 material_specular = texture(material.specular, fs_in.tex_coord).rgb;
+    float roughness = texture(material.roughness, fs_in.tex_coord).r;
+    float shininess = 2.0f/pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
+    vec3 material_emission = texture(material.emission, fs_in.tex_coord).rgb;
+    float material_ao = texture(material.ambient_occlusion, fs_in.tex_coord).r;
 
-    for(int i = 0; i<count; i++){
+    frag_color = vec4(material_emission, 1);
+
+    for(int i = 0; i < min(MAX_LIGHTS, light_count); i++){
         Light light = lights[i];
 
-        vec3 light_dir = vec3(0.0f);
-        float attenuation = 1.0f;
-
-        if(light.type == TYPE_DIRECTIONAL){
-            light_dir = light.direction;
+        vec3 light_dir = light.direction;
+        if(light.type != DIRECTIONAL){
+            light_dir = normalize(fs_in.world - light.position);
         }
-        else{
-            light_dir  = fs_in.world - light.position;
-            float distance = length(light_dir);
-            light_dir = light_dir / distance;
-            attenuation =   1.0f / (light.attenuation_constant + 
-                            light.attenuation_linear * distance + 
-                            light.attenuation_quadratic * distance * distance);
-            if (light.type == TYPE_SPOT){
-                float angle = acos(dot(light_dir, light.direction));
-                attenuation *= smoothstep(light.outer_angle, light.inner_angle, angle);
+
+        vec3 diffuse = material_albedo * light.color * max(0, dot(normal, -light_dir));
+        vec3 reflected = reflect(light_dir, normal);
+        vec3 specular = material_specular * light.color * pow(max(0, dot(view, reflected)), shininess);
+        vec3 ambient = material_ao * material_albedo * 0.1;
+
+        float attenuation = 1;
+        if(light.type != DIRECTIONAL){
+            float d = distance(light.position, fs_in.world);
+            attenuation *= 1.0/dot(light.attenuation, vec3(1, d, d*d));
+            if(light.type == SPOT){
+                float angle = acos(dot(light.direction, light_dir));
+                attenuation *= smoothstep(light.cone_angles.y, light.cone_angles.x, angle);
             }
         }
-
-        vec3 reflected = reflect(light_dir, normal);
-        float lambert = max(dot(normal, -light_dir), 0.0f);
-        float phong = pow(max(dot(reflected, view), 0.0f), material.shininess);
-        diffuse *= lambert;
-        specular *= phong;
-        accum_light += (diffuse + specular) * attenuation + ambient;
+        frag_color.rgb += (diffuse + specular) * attenuation + ambient;
     }
-
-    frag_color = vec4(accum_light + emissive, 1.0f);
 }
-
