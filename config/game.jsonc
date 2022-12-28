@@ -30,7 +30,8 @@
                 "grass": "assets/textures/grass_ground_d.jpg",
                 "wood": "assets/textures/wood.jpg",
                 "glass": "assets/textures/glass-panels.png",
-                "monkey": "assets/textures/monkey.png"
+                "monkey": "assets/textures/monkey.png",
+                "ball":"assets/textures/ball.jpg"
 
             },
             "meshes":{
@@ -127,8 +128,8 @@
                     "sampler": "default"
                 },
                 "ball": {
-                    "type": "tinted",
-                    "shader": "tinted",
+                    "type": "textured",
+                    "shader": "textured",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -137,13 +138,15 @@
                             "enabled": true
                         }
                     },
-                    "tint": [1, 0, 0, 1]
+                    "tint": [1, 1, 1, 1],
+                    "texture": "ball",
+                    "sampler": "default"
                 }
             }
         },
         "world":[
             {
-                "position": [0, 0, 10],
+                "position": [0, 3, 15],
                 "components": [
                     {
                         "type": "Camera"
@@ -154,14 +157,14 @@
                 ],
                 "children": [
                     {
-                        "position": [1, -1, -1],
-                        "rotation": [45, 45, 0],
-                        "scale": [0.1, 0.1, 1.0],
+                        "position": [0, -3, -4],
+                        "rotation": [-90, 0, 0],
+                        "scale": [0.5, 0.5, 0.5],
                         "components": [
                             {
                                 "type": "Mesh Renderer",
-                                "mesh": "cube",
-                                "material": "metal"
+                                "mesh": "sphere",
+                                "material": "ball"
                             }
                         ]
                     }
@@ -182,20 +185,6 @@
                     }
                 ]
             },
-
-            {
-                "position": [-3, 1, 0],
-                "rotation": [-90, 0, 0],
-                "scale": [0.5, 0.5, 0.5],
-                "components": [
-                    {
-                        "type": "Mesh Renderer",
-                        "mesh": "sphere",
-                        "material": "ball"
-                    }
-                ]
-            },
-
             {
                 "position": [0, -1, 0],
                 "rotation": [-90, 0, 0],
