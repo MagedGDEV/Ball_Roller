@@ -208,23 +208,30 @@ namespace our {
                 // before we draw the object we check the effect the of light on the object if it contains lit material
                 if(opaqueCommands[i].material->isLit || dynamic_cast<LitMaterial*>(opaqueCommands[i].material)) 
                 {
+                    // setting the light count for the shader
                     opaqueCommands[i].material->shader->set("light_count", (int)lightObjects.size());
+                    // setting the view projection matrix for the shader
                     opaqueCommands[i].material->shader->set("v_p", VP);
                     glm::mat4 Model = opaqueCommands[i].localToWorld;
                     glm::mat4 Model_IT = glm::inverse(Model);
+                    Model_IT = glm::transpose(Model_IT);    // not sure if we need to transpose the inverse matrix
+                    // setting the object to world matrix for the shader 
                     opaqueCommands[i].material->shader->set("object_to_world", Model);
+                    // setting the object to world inverse transpose matrix for the shader
                     opaqueCommands[i].material->shader->set("object_to_world_it", Model_IT);
                     glm::vec3 eye = glm::vec3(Model * glm::vec4(0, 0, 0, 1));
+                    // setting the eye position for the shader
                     opaqueCommands[i].material->shader->set("eye",  eye);
                     for(int j = 0; j < lightObjects.size(); j++)
                     {
                         // getting the light position from its parent entity
                         glm::vec3 lightPosition = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,0,1);
+                        // getting the light properties
                         int type = (int)lightObjects[j]->lightType;
                         glm::vec3 attenuation = glm::vec3(lightObjects[j]->attenuationConstant, lightObjects[j]->attenuationLinear, lightObjects[j]->attenuationQuadratic);
                         glm::vec3 color = lightObjects[j]->color;
                         glm::vec2 cone_angles = glm::vec2(lightObjects[j]->innerAngle, lightObjects[j]->outerAngle);
-                        // Setting the lights uniform
+                        // Setting the lights uniform for each light source in the scene
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].type", type);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].position", lightPosition);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].color", color);
