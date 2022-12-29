@@ -51,8 +51,7 @@ namespace our
                                     return true;
                                 }
                             }
-
-                            if(worldEntity->name == "transparentBlock")
+                            else if(worldEntity->name == "transparentBlock")
                             {
                                 //get parent
                                 Entity *parent = worldEntity->parent;
