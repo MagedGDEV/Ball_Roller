@@ -31,7 +31,9 @@
                 "wood": "assets/textures/wood.jpg",
                 "glass": "assets/textures/glass-panels.png",
                 "monkey": "assets/textures/monkey.png",
-                "ball":"assets/textures/ball.jpg"
+                "ball":"assets/textures/ball.jpg",
+                "box":"assets/textures/box.jpg",
+                "ground":"assets/textures/ground.jpg"
                 
             },
             "meshes":{
@@ -94,7 +96,7 @@
                         }
                     },
                     "tint": [1, 1, 1, 1],
-                    "texture": "grass",
+                    "texture": "ground",
                     "sampler": "default"
                 },
                 "monkey":{
@@ -143,8 +145,8 @@
                     "sampler": "default"
                 },
                 "enemy": {
-                    "type": "tinted",
-                    "shader": "tinted",
+                    "type": "textured",
+                    "shader": "textured",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -153,7 +155,9 @@
                             "enabled": true
                         }
                     },
-                    "tint": [0.2, 0.2, 1, 1]
+                    "tint": [1, 1, 1, 1],
+                    "texture": "box",
+                    "sampler": "default"
                 }
             }
         },
