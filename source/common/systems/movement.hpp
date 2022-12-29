@@ -30,6 +30,7 @@ namespace our
                     {
                         //delete the other marked entity from the world
                         world->deleteMarkedEntities();
+                        
                     }
                     // Change the position and rotation based on the linear & angular velocity and delta time.
                     entity->localTransform.position += deltaTime * movement->linearVelocity;

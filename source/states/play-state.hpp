@@ -40,6 +40,7 @@ class Playstate: public our::State {
         // Here, we just run a bunch of systems to control the world logic
         movementSystem.update(&world, (float)deltaTime);
         cameraController.update(&world, (float)deltaTime);
+        
         // And finally we use the renderer system to draw the scene
         renderer.render(&world);
 
@@ -48,6 +49,23 @@ class Playstate: public our::State {
 
         if(keyboard.justPressed(GLFW_KEY_ESCAPE)){
             // If the escape  key is pressed in this frame, go to the play state
+            getApp()->changeState("menu");
+        }
+        // Check if the player is still alive using a boolean flag
+        bool flag = false;
+        // Iterate through all the entities in the world, check if any of them is the player
+        for(auto entity : world.getEntities())
+        {
+            // If the entity is the player, set the flag to true and break the loop
+            if(entity->name == "player")
+            {
+                flag = true;
+                break;
+            }
+        }
+        //If the player is dead, go to the menu state
+        if(!flag)
+        {
             getApp()->changeState("menu");
         }
     }
