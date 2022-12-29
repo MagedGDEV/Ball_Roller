@@ -100,6 +100,7 @@ namespace our
             
             // space add jump to the player
             if (app->getKeyboard().isPressed(GLFW_KEY_SPACE)) {
+                
                 if (position.y >= 7){
                     fallDownlock = true;
                 }
@@ -113,7 +114,7 @@ namespace our
 
             if (fallDownlock) {
                 position -= down * (deltaTime * current_sensitivity.y);
-                if (position.y <= 2.5 ) fallDownlock = false;
+                if (position.y <= 1.5 ) fallDownlock = false;
             }
         }
 
