@@ -9,6 +9,7 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
+#include <iostream>
 
 namespace our
 {
@@ -26,7 +27,7 @@ namespace our
                     {
                         CollisionComponent *worldEntityCollision = worldEntity->getComponent<CollisionComponent>(); 
                         // Check if the other entity is the cube and has a collision component
-                        if (worldEntityCollision && worldEntity->name == "cube")                                        
+                        if (worldEntityCollision)                                        
                         {
                             // We need to get the collision parameters of the other entity, which are its center and its radius
                             // Get the radius of the other entity
@@ -39,13 +40,32 @@ namespace our
                             float mainEntityRadius = mainEntityCollision->radius;
                             // Get the distance between the two entities
                             float distance = glm::distance(mainEntityCenter, worldEntityCenter);
-                            // Check if the distance is less than the sum of the two radii
-                            if (distance < mainEntityRadius + worldEntityRadius)
+                            if (worldEntity->name == "cube")
                             {
-                                // Here, the two entities are colliding, so we mark the other entity for removal
-                                world->markForRemoval(worldEntity);
-                                return true;
+                                // Check if the distance is less than the sum of the two radii
+                                if (distance < mainEntityRadius + worldEntityRadius)
+                                {
+                                    // Here, the two entities are colliding, so we mark the main entity for removal
+                                    // This is where the game ends (we will remove the main entity for now)
+                                    world->markForRemoval(mainEntity);
+                                    return true;
+                                }
                             }
+
+                            if(worldEntity->name == "transparentBlock")
+                            {
+                                //get parent
+                                Entity *parent = worldEntity->parent;
+                                // Check if the distance is less than the sum of the two radii
+                                if (distance < mainEntityRadius + worldEntityRadius)
+                                {
+                                    // Here, the two entities are colliding, so we mark the other entity for removal
+                                    world->markForRemoval(worldEntity);
+                                    world->markForRemoval(parent);
+                                    return true;
+                                }
+                            }
+
                         }
                     } 
                 }
