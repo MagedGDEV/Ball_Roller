@@ -14,7 +14,7 @@ namespace our {
         // The ID of this component type is "Collision"
         static std::string getID() { return "Collision"; }
 
-        // Reads linearVelocity & angularVelocity from the given json object
+        // Reads collision parameters from the given json object
         void deserialize(const nlohmann::json& data) override;
     };
 
