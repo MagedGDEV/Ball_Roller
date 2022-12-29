@@ -26,9 +26,9 @@ namespace our
                 // If the movement component exists
                 if(movement){
                     //Check if the entity is colliding with another entity
-                    if (collisionSystem->CheckCollision(world, entity, deltaTime))
+                    if (collisionSystem->CheckCollision(world, entity))
                     {
-                        //delete entity from the world
+                        //delete the other marked entity from the world
                         world->deleteMarkedEntities();
                     }
                     // Change the position and rotation based on the linear & angular velocity and delta time.

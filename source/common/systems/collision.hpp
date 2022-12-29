@@ -16,7 +16,7 @@ namespace our
     {
         public:
         //check if our entity is colliding with another entity, make the other entity disappear
-            bool CheckCollision(World *world, Entity *mainEntity, float deltaTime)
+            bool CheckCollision(World *world, Entity *mainEntity)
             {
                 CollisionComponent *mainEntityCollision = mainEntity->getComponent<CollisionComponent>();
                 if (mainEntityCollision)
