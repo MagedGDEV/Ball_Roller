@@ -163,7 +163,7 @@
         },
         "world":[
             {
-                "position": [0, 6, 10],
+                "position": [-5, 8, 45],
                 "components": [
                     {
                         "type": "Camera"
@@ -203,9 +203,9 @@
                 ]
             },
             {
-                "position": [0, -1, 0],
+                "position": [-5, -1, 0],
                 "rotation": [-90, 0, 0],
-                "scale": [10, 10, 1],
+                "scale": [4, 40, 1],
                 "components": [
                     {
                         "type": "Mesh Renderer",
@@ -270,7 +270,404 @@
                         ]
                     }
                 ]
+            },
+            {
+                "name":"cube",
+                "position": [-6, -0.5, 20],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-4, -0.5, 15],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-4.5, -0.5, 10],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-6, -0.5, 6],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-5, -0.5, 0],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-3, -0.5, -3],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-5, -0.5, -10],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-4, -0.5, -15],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-3, -0.5, -20],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-6, -0.5, -26],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"cube",
+                "position": [-4, -0.5, -34],
+                "scale": [1.5, 0.25, 0.5],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "enemy"
+                    },
+                    {
+                        "type": "Collision",
+                        "center": [0, 1, 0, 1],
+                        "radius": 0.5
+                    }
+                ],
+                "children": [
+                    {
+                        "name":"transparentBlock",
+                        "position": [0, 1, 0],
+                        "scale": [0.75, 0.5, 0.75],
+                        "components": [
+                            {
+                                "type": "Mesh Renderer",
+                                "mesh": "cube",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Collision",
+                                "center": [0, 1, 0, 1],
+                                "radius": 0.5
+                            }
+                        ]
+                    }
+                ]
             }
+            
             
         ]
     }
