@@ -17,6 +17,8 @@ class Playstate: public our::State {
     our::FreeCameraControllerSystem cameraController;
     our::MovementSystem movementSystem;
     our::CollisionSystem collisionSystem;
+    our::Entity *player;
+    
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
@@ -52,19 +54,37 @@ class Playstate: public our::State {
             getApp()->changeState("menu");
         }
         // Check if the player is still alive using a boolean flag
-        bool flag = false;
+        bool deadFlag = false;
+        // check if player won or got out of  the ground of the game
+        bool winLoseFlag = true;
         // Iterate through all the entities in the world, check if any of them is the player
         for(auto entity : world.getEntities())
         {
             // If the entity is the player, set the flag to true and break the loop
             if(entity->name == "player")
             {
-                flag = true;
+                // check if player passed the finish line (z = -40)
+                // win condition
+                if(entity->getLocalToWorldMatrix()[3][2] <= -40)
+                {
+                    // go to menu state
+                    deadFlag = false;
+                    break;
+                }
+                // lose condition (x <= -9.5) | (x >= -0.5)
+                else if (entity->getLocalToWorldMatrix()[3][0] <= -9.5 || entity->getLocalToWorldMatrix()[3][0] >= -0.5)
+                {
+                    // go to menu state
+                    deadFlag = false;
+                    break;
+                }
+
+                deadFlag = true;
                 break;
             }
         }
-        //If the player is dead, go to the menu state
-        if(!flag)
+        //If the player is dead/won/passed the ground, go to the menu state
+        if(!deadFlag || !winLoseFlag)
         {
             getApp()->changeState("menu");
         }

@@ -100,19 +100,23 @@ namespace our
             
             // space add jump to the player
             if (app->getKeyboard().isPressed(GLFW_KEY_SPACE)) {
-                
+                // The player can only jump till y = 7
                 if (position.y >= 7){
+                    // start falling down
                     fallDownlock = true;
                 }
                 else {
+                    // Increase the y position of the player to make it jump
                     position += up * (deltaTime * current_sensitivity.y);
                 }
             }
+            // When the player releases the space key, the player starts falling down
             if (app->getKeyboard().justReleased(GLFW_KEY_SPACE)){
                 fallDownlock = true;
             }
-
+            // if fall down lock is true, the player starts falling down
             if (fallDownlock) {
+                // The player can only fall till y = 1.5 (ground level)
                 position -= down * (deltaTime * current_sensitivity.y);
                 if (position.y <= 1.5 ) fallDownlock = false;
             }
