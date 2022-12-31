@@ -280,7 +280,6 @@
                     "type": "Light",
                     "color": [1, 1, 1],
                     "attenuation": [0.1, 0.4, 0.2],
-                    "direction": [-10,-10,0],
                     "cone_angles": [30, 180],
                     "lightType": "directional"
                 }

@@ -226,6 +226,8 @@ namespace our {
                     {
                         // getting the light position from its parent entity
                         glm::vec3 lightPosition = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,0,1);
+                        // light duection is the vector from the light position to the eye position
+                        glm::vec3 lightDirection = glm::normalize(eye - lightPosition);
                         // getting the light properties
                         int type = (int)lightObjects[j]->lightType;
                         glm::vec3 attenuation = glm::vec3(lightObjects[j]->attenuationConstant, lightObjects[j]->attenuationLinear, lightObjects[j]->attenuationQuadratic);
@@ -237,7 +239,7 @@ namespace our {
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].color", color);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].attenuation", attenuation);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].cone_angles", cone_angles);
-                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].direction", glm::normalize(lightObjects[j]->direction));
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].direction", lightDirection);
                     }
                 }
                 // drawing the mesh
