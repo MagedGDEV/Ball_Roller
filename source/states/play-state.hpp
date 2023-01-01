@@ -72,7 +72,7 @@ class Playstate: public our::State {
                     break;
                 }
                 // lose condition (x <= -9.5) | (x >= -0.5)
-                else if (entity->getLocalToWorldMatrix()[3][0] <= -9.5 || entity->getLocalToWorldMatrix()[3][0] >= -0.5)
+                else if (entity->getLocalToWorldMatrix()[3][0] <= -9.5 || entity->getLocalToWorldMatrix()[3][0] >= -0.5 || entity->getLocalToWorldMatrix()[3][2] > 40.0)
                 {
                     // go to menu state
                     winLoseFlag = false;
