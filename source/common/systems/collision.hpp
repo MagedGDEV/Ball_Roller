@@ -22,7 +22,7 @@ namespace our
                 CollisionComponent *mainEntityCollision = mainEntity->getComponent<CollisionComponent>();
                 if (mainEntityCollision)
                 {
-                    // Loop over each entity in the world and check if it has collided with our main entity
+                    // Loop over each entity in the world and check if it has collided with our main entity (player)
                     for (auto worldEntity : world->getEntities())
                     {
                         CollisionComponent *worldEntityCollision = worldEntity->getComponent<CollisionComponent>(); 
@@ -40,6 +40,7 @@ namespace our
                             float mainEntityRadius = mainEntityCollision->radius;
                             // Get the distance between the two entities
                             float distance = glm::distance(mainEntityCenter, worldEntityCenter);
+                            // Player collides with the cube and dies
                             if (worldEntity->name == "cube")
                             {
                                 // Check if the distance is less than the sum of the two radii
@@ -51,6 +52,7 @@ namespace our
                                     return true;
                                 }
                             }
+                            // kill the cube and remove the transparent block
                             else if(worldEntity->name == "transparentBlock")
                             {
                                 //get parent
