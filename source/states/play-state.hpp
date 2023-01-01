@@ -86,7 +86,7 @@ class Playstate: public our::State {
         //If the player is dead/won/passed the ground, go to the menu state
         if(!deadFlag)
         {
-            getApp()->changeState("menu");
+            getApp()->changeState("lose");
         }
         if (!winLoseFlag) 
         {
