@@ -23,7 +23,6 @@ namespace our {
         float attenuationQuadratic; // The quadratic attenuation of the light
         float innerAngle; // The inner angle of the light
         float outerAngle; // The outer angle of the light
-        glm::vec3 direction; // The direction of the light
 
         // positon and direction are calculated from the entity component
 

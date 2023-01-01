@@ -127,6 +127,7 @@ namespace our {
         CameraComponent* camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
+        lightObjects.clear();
         for(auto entity : world->getEntities()){
             // If we hadn't found a camera yet, we look for a camera in this entity
             if(!camera) camera = entity->getComponent<CameraComponent>();
@@ -226,6 +227,8 @@ namespace our {
                     {
                         // getting the light position from its parent entity
                         glm::vec3 lightPosition = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,0,1);
+                        // light direction is the normalized vector from the light position to the origin
+                        glm::vec3 lightDirection = glm::normalize(-lightPosition);
                         // getting the light properties
                         int type = (int)lightObjects[j]->lightType;
                         glm::vec3 attenuation = glm::vec3(lightObjects[j]->attenuationConstant, lightObjects[j]->attenuationLinear, lightObjects[j]->attenuationQuadratic);
@@ -237,7 +240,7 @@ namespace our {
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].color", color);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].attenuation", attenuation);
                         opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].cone_angles", cone_angles);
-                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].direction", glm::normalize(lightObjects[j]->direction));
+                        opaqueCommands[i].material->shader->set("lights[" + std::to_string(j) + "].direction", lightDirection);
                     }
                 }
                 // drawing the mesh

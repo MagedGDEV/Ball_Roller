@@ -7,6 +7,7 @@
 #include <systems/free-camera-controller.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
+#include <systems/collision.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate: public our::State {
@@ -15,6 +16,9 @@ class Playstate: public our::State {
     our::ForwardRenderer renderer;
     our::FreeCameraControllerSystem cameraController;
     our::MovementSystem movementSystem;
+    our::CollisionSystem collisionSystem;
+    our::Entity *player;
+    
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
@@ -38,6 +42,7 @@ class Playstate: public our::State {
         // Here, we just run a bunch of systems to control the world logic
         movementSystem.update(&world, (float)deltaTime);
         cameraController.update(&world, (float)deltaTime);
+        
         // And finally we use the renderer system to draw the scene
         renderer.render(&world);
 
@@ -47,6 +52,45 @@ class Playstate: public our::State {
         if(keyboard.justPressed(GLFW_KEY_ESCAPE)){
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
+        }
+        // Check if the player is still alive using a boolean flag
+        bool deadFlag = false;
+        // check if player won or got out of  the ground of the game
+        bool winLoseFlag = true;
+        // Iterate through all the entities in the world, check if any of them is the player
+        for(auto entity : world.getEntities())
+        {
+            // If the entity is the player, set the flag to true and break the loop
+            if(entity->name == "player")
+            {
+                // check if player passed the finish line (z = -40)
+                // win condition
+                if(entity->getLocalToWorldMatrix()[3][2] <= -40)
+                {
+                    // go to menu state
+                    winLoseFlag = false;
+                    break;
+                }
+                // lose condition (x <= -9.5) | (x >= -0.5)
+                else if (entity->getLocalToWorldMatrix()[3][0] <= -9.5 || entity->getLocalToWorldMatrix()[3][0] >= -0.5 || entity->getLocalToWorldMatrix()[3][2] > 40.0)
+                {
+                    // go to menu state
+                    deadFlag = false;
+                    break;
+                }
+
+                deadFlag = true;
+                break;
+            }
+        }
+        //If the player is dead/won/passed the ground, go to the menu state
+        if(!deadFlag)
+        {
+            getApp()->changeState("lose");
+        }
+        if (!winLoseFlag) 
+        {
+            getApp()->changeState("win");
         }
     }
 

@@ -35,7 +35,5 @@ namespace our {
         // cone angles are read as a vector of 2 floats in the json file (inner, outer)
         innerAngle = glm::radians((float)data["cone_angles"][0]);
         outerAngle = glm::radians((float)data["cone_angles"][1]);
-        // read direction from json file in case of directional light
-        direction = glm::vec3(data["direction"][0], data["direction"][1], data["direction"][2]);
     }
 }
