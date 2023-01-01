@@ -38,9 +38,17 @@
                 "box":"assets/textures/box.jpg",
                 "ground":"assets/textures/ground.jpg",
                 "door": "assets/textures/door.jpg",
-                "albedo": "assets/textures/albedo.jpg",
-                "roughness": "assets/textures/roughness.jpg"
-                
+                "albedo_asphalt" : "assets/textures/albedo_asphalt.jpg",
+                "albedo_metal" : "assets/textures/albedo_metal.jpg",
+                "albedo_wood" : "assets/textures/albedo_wood.jpg",
+                "ambient_occlusion_monkey" : "assets/textures/ambient_occlusion_monkey.jpg",
+                "emmissive_asphalt" : "assets/textures/emmissive_asphalt.jpg",
+                "roughness_asphalt" : "assets/textures/roughness_asphalt.jpg",
+                "roughness_metal" : "assets/textures/roughness_metal.jpg",
+                "roughness_wood" : "assets/textures/roughness_wood.jpg",
+                "specular_asphalt" : "assets/textures/specular_asphalt.jpg",
+                "specular_metal" : "assets/textures/specular_metal.jpg",
+                "specular_wood" : "assets/textures/specular_wood.jpg"    
             },
             "meshes":{
                 "cube": "assets/models/cube.obj",
@@ -70,8 +78,8 @@
                     "tint": [0.45, 0.4, 0.5, 1]
                 },
                 "door":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -84,7 +92,11 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "door",
-                    "sampler": "pixelated"
+                    "sampler": "pixelated",
+                    "isLit" : true,
+                    "albedo" : "albedo_wood",
+                    "roughness" : "roughness_wood",
+                    "specular" : "specular_wood"
                 },
                 "glass":{
                     "type": "textured",
@@ -98,13 +110,13 @@
                         },
                         "blending":{
                             "enabled": true,
-                            "sourceFactor": "GL_SRC_ALPHA",
+                            "sourceFactor": "GL_ONE_MINUS_SRC_ALPHA",
                             "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
                         },
                         "depthMask": false
                     },
                     "transparent": true,
-                    "tint": [1, 1, 1, 1],
+                    "tint": [0, 0, 0, 0],
                     "texture": "glass",
                     "sampler": "pixelated"
                 },
@@ -138,12 +150,13 @@
                     "texture": "monkey",
                     "sampler": "default",
                     "isLit" : true,
-                    "albedo" : "albedo",
-                    "roughness" : "roughness"
+                    "albedo" : "albedo_metal",
+                    "roughness" : "roughness_metal",
+                    "specular" : "specular_metal"
                 },
                 "moon":{
-                    "type": "lit",
-                    "shader": "light",
+                    "type": "textured",
+                    "shader": "textured",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -154,10 +167,7 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "moon",
-                    "sampler": "default",
-                    "isLit" : true,
-                    "albedo" : "albedo",
-                    "roughness" : "roughness"
+                    "sampler": "default"
                 },
                 "ball": {
                     "type": "textured",
@@ -175,8 +185,8 @@
                     "sampler": "default"
                 },
                 "enemy": {
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -187,7 +197,27 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "box",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "isLit" : true,
+                    "albedo" : "albedo_asphalt"
+                },
+                "light-bulb": {
+                    "type": "lit",
+                    "shader": "light",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "box",
+                    "sampler": "default",
+                    "isLit" : true,
+                    "albedo" : "albedo_asphalt",
+                    "specular" : "specular_asphalt"
                 }
             }
         },
@@ -211,35 +241,24 @@
                     {
                         "name": "player",
                         "position": [0, -2, -5],
-                        "rotation": [0, 0, 0],
+                        "rotation": [-90, 0, 0],
                         "scale": [0.5, 0.5, 0.5],
                         "components": [
                             {
                                 "type": "Mesh Renderer",
-                                "mesh": "smooth-sphere",
+                                "mesh": "sphere",
                                 "material": "ball"
+                            },
+                            {
+                                "type": "Movement",
+                                "angularVelocity": [-45, 0, 0]
                             },
                             {
                                 "type": "Collision",
                                 "center": [0, 1, 0, 1],
                                 "radius": 0.5
-                            },
-                            {
-                                "type": "Movement"
                             }
                         ]
-                    }
-                ]
-            },
-            {
-                "position": [0, 10, 0],
-                "rotation": [45, 45, 0],
-                "scale": [5, 5, 5],
-                "components": [
-                    {
-                        "type": "Mesh Renderer",
-                        "mesh": "sphere",
-                        "material": "moon"
                     }
                 ]
             },
@@ -251,14 +270,14 @@
                     {
                         "type": "Mesh Renderer",
                         "mesh": "plane",
-                        "material": "enemy"
+                        "material": "door"
                     },
                     {
                         "type": "Collision",
                         "center": [0, 1, 0, 1],
                         "radius": 10
                     }
-                ]
+                ] 
             },
             {
                 "position": [-5, -1, 0],
@@ -710,25 +729,43 @@
                 ]
             },
             {
-                "position": [ 5, 2, 0 ],
+                "position": [ -12, -0.5, 30 ],
                 "rotation": [ 0, 0, 0 ],
-                "scale": [ 3, 2, 3 ],
+                "scale": [ 1, 1, 1 ],
                 "components": [
                 {
                     "type": "Mesh Renderer",
                     "mesh": "smooth-sphere",
-                    "material": "monkey"
+                    "material": "light-bulb"
                 },
                 {
                     "type": "Light",
-                    "color": [0.5, 1, 1],
-                    "attenuation": [0.1, 0.1, 0.1],
+                    "color": [1, 0, 0],
+                    "attenuation": [0.1, 0.1, 0.0],
                     "cone_angles": [30, 180],
-                    "lightType": "directional"
+                    "lightType": "point"
+                }
+                ]
+            },
+            {
+                "position": [ 2, -0.5, 30 ],
+                "rotation": [ 0, 0, 0 ],
+                "scale": [ 1, 1, 1 ],
+                "components": [
+                {
+                    "type": "Mesh Renderer",
+                    "mesh": "smooth-sphere",
+                    "material": "light-bulb"
+                },
+                {
+                    "type": "Light",
+                    "color": [0, 0, 1],
+                    "attenuation": [0.1, 0.1, 0.0],
+                    "cone_angles": [30, 180],
+                    "lightType": "spot"
                 }
                 ]
             }
-            
         ]
     }
 }

@@ -75,7 +75,7 @@ class Playstate: public our::State {
                 else if (entity->getLocalToWorldMatrix()[3][0] <= -9.5 || entity->getLocalToWorldMatrix()[3][0] >= -0.5 || entity->getLocalToWorldMatrix()[3][2] > 40.0)
                 {
                     // go to menu state
-                    winLoseFlag = false;
+                    deadFlag = false;
                     break;
                 }
 
@@ -84,9 +84,13 @@ class Playstate: public our::State {
             }
         }
         //If the player is dead/won/passed the ground, go to the menu state
-        if(!deadFlag || !winLoseFlag)
+        if(!deadFlag)
         {
             getApp()->changeState("menu");
+        }
+        if (!winLoseFlag) 
+        {
+            getApp()->changeState("win");
         }
     }
 
