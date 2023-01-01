@@ -4,8 +4,8 @@
     {
         "title":"Default Game Window",
         "size":{
-            "width":1280,
-            "height":720
+            "width":1920,
+            "height":1080
         },
         "fullscreen": false
     },
@@ -42,7 +42,7 @@
                 "albedo_metal" : "assets/textures/albedo_metal.jpg",
                 "albedo_wood" : "assets/textures/albedo_wood.jpg",
                 "ambient_occlusion_monkey" : "assets/textures/ambient_occlusion_monkey.jpg",
-                "emmissive_asphalt" : "assets/textures/emmissive_asphalt.jpg",
+                "emissive_asphalt" : "assets/textures/emissive_asphalt.jpg",
                 "roughness_asphalt" : "assets/textures/roughness_asphalt.jpg",
                 "roughness_metal" : "assets/textures/roughness_metal.jpg",
                 "roughness_wood" : "assets/textures/roughness_wood.jpg",
@@ -121,8 +121,8 @@
                     "sampler": "pixelated"
                 },
                 "grass":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -133,7 +133,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "ground",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "isLit" : true,
+                    "albedo" : "albedo_asphalt",
+                    "roughness" : "roughness_asphalt",
+                    "specular" : "specular_asphalt",
+                    "emissive" : "emissive_asphalt"
                 },
                 "monkey":{
                     "type": "lit",
@@ -147,12 +152,9 @@
                         }
                     },
                     "tint": [1, 1, 1, 1],
-                    "texture": "monkey",
+                    "texture": "emissive_asphalt",
                     "sampler": "default",
-                    "isLit" : true,
-                    "albedo" : "albedo_metal",
-                    "roughness" : "roughness_metal",
-                    "specular" : "specular_metal"
+                    "isLit" : true
                 },
                 "moon":{
                     "type": "textured",
@@ -282,7 +284,7 @@
             {
                 "position": [ -5.25, 14, -39 ],
                 "rotation": [ 0, 0, 0 ],
-                "scale": [ 0.1, 0.1, 0.1 ],
+                "scale": [ 0.1, 0.1, 0.2 ],
                 "components": [
                 {
                     "type": "Mesh Renderer",
@@ -291,7 +293,7 @@
                 },
                 {
                     "type": "Light",
-                    "color": [0, 1, 0],
+                    "color": [0.0, 1.0, 0.0],
                     "attenuation": [0.1, 0.1, 0.0],
                     "cone_angles": [30, 180],
                     "lightType": "spot"
@@ -798,10 +800,40 @@
                 {
                     "type": "Light",
                     "color": [0, 0, 1],
-                    "attenuation": [0.1, 0.1, 0.0],
+                    "attenuation": [0.01, 0.1, 0.0],
                     "cone_angles": [30, 180],
                     "lightType": "spot"
                 }
+                ]
+            },
+            {
+                "position": [ 2, 0.0, 0],
+                "rotation": [ 0, 0, 0 ],
+                "scale": [ 0.5, 0.5, 0.5 ],
+                "components": [
+                {
+                    "type": "Mesh Renderer",
+                    "mesh": "smooth-sphere",
+                    "material": "light-bulb"
+                },
+                {
+                    "type": "Light",
+                    "color": [1, 0.0, 0.0],
+                    "attenuation": [0.1, 0.1, 0.0],
+                    "cone_angles": [30, 180],
+                    "lightType": "directional"
+                }
+                ]
+            },
+            {
+                "position": [ 1, 0.0, -3],
+                "rotation": [-45, 0, 0],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "monkey",
+                        "material": "monkey"
+                    }
                 ]
             }
         ]
