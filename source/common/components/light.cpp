@@ -33,6 +33,7 @@ namespace our {
         attenuationLinear = data["attenuation"][1];
         attenuationQuadratic = data["attenuation"][2];
         // cone angles are read as a vector of 2 floats in the json file (inner, outer)
+        // We convert them to radians here because we will use them in the shader
         innerAngle = glm::radians((float)data["cone_angles"][0]);
         outerAngle = glm::radians((float)data["cone_angles"][1]);
     }

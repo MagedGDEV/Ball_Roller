@@ -127,6 +127,7 @@ namespace our {
         CameraComponent* camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
+        // We also clear the list of lights
         lightObjects.clear();
         for(auto entity : world->getEntities()){
             // If we hadn't found a camera yet, we look for a camera in this entity
@@ -147,7 +148,7 @@ namespace our {
                     opaqueCommands.push_back(command);
                 }
             }
-
+            // If this entity has a light component, we add it to the list of lights
             if (auto light = entity->getComponent<LightComponent>(); light) {
                 lightObjects.push_back(light);
             }
@@ -213,9 +214,10 @@ namespace our {
                     opaqueCommands[i].material->shader->set("light_count", (int)lightObjects.size());
                     // setting the view projection matrix for the shader
                     opaqueCommands[i].material->shader->set("v_p", VP);
+                    // setting the world to view matrix for the shader
                     glm::mat4 Model = opaqueCommands[i].localToWorld;
                     glm::mat4 Model_IT = glm::inverse(Model);
-                    Model_IT = glm::transpose(Model_IT);    // not sure if we need to transpose the inverse matrix
+                    Model_IT = glm::transpose(Model_IT);
                     // setting the object to world matrix for the shader 
                     opaqueCommands[i].material->shader->set("object_to_world", Model);
                     // setting the object to world inverse transpose matrix for the shader

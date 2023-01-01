@@ -18,9 +18,11 @@ namespace our {
     
         LightType lightType; // The type of the light
         glm::vec3 color; // The color of the light
+        // attenuation for spot and point lights
         float attenuationConstant; // The constant attenuation of the light
         float attenuationLinear; // The linear attenuation of the light
         float attenuationQuadratic; // The quadratic attenuation of the light
+        // spot light only
         float innerAngle; // The inner angle of the light
         float outerAngle; // The outer angle of the light
 
