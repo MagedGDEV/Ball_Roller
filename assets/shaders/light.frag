@@ -5,6 +5,7 @@ in Varyings {
     vec3 view;
     vec3 world;
     vec2 tex_coord;
+    vec4 color;
 } fs_in;
 
 out vec4 frag_color;
@@ -47,7 +48,7 @@ void main(){
     vec3 material_emission = texture(material.emission, fs_in.tex_coord).rgb;
     float material_ao = texture(material.ambient_occlusion, fs_in.tex_coord).r;
 
-    frag_color = vec4(material_emission, 1);
+    vec3 accumulated_light = material_emission;
 
     for(int i = 0; i < min(MAX_LIGHTS, light_count); i++){
         Light light = lights[i];
@@ -71,6 +72,8 @@ void main(){
                 attenuation *= smoothstep(light.cone_angles.y, light.cone_angles.x, angle);
             }
         }
-        frag_color.rgb += (diffuse + specular) * attenuation + ambient;
+        accumulated_light += (diffuse + specular + ambient) * attenuation;
     }
+
+    frag_color = fs_in.color * vec4(accumulated_light, 1.0f);
 }
