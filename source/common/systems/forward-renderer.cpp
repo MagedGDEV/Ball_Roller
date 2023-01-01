@@ -227,8 +227,8 @@ namespace our {
                     {
                         // getting the light position from its parent entity
                         glm::vec3 lightPosition = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,0,1);
-                        // light direction is the vector from the light position to the eye position
-                        glm::vec3 lightDirection = lightObjects[j]->getOwner()->getLocalToWorldMatrix() * glm::vec4(0,0,-1,0);
+                        // light direction is the normalized vector from the light position to the origin
+                        glm::vec3 lightDirection = glm::normalize(-lightPosition);
                         // getting the light properties
                         int type = (int)lightObjects[j]->lightType;
                         glm::vec3 attenuation = glm::vec3(lightObjects[j]->attenuationConstant, lightObjects[j]->attenuationLinear, lightObjects[j]->attenuationQuadratic);
