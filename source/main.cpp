@@ -46,6 +46,7 @@ int main(int argc, char** argv) {
     // Register all the states of the project in the application
     app.registerState<Menustate>("menu");
     app.registerState<Playstate>("play");
+    // add win and lose states
     app.registerState<WinState>("win");
     app.registerState<LoseState>("lose");
     app.registerState<ShaderTestState>("shader-test");
